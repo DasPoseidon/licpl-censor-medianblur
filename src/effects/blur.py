@@ -75,7 +75,7 @@ class BlurAnnotator():
             xyxy=detections.xyxy, resolution_wh=(image_width, image_height)
         ).astype(int)
 
-for x1, y1, x2, y2 in clipped_xyxy: # this loop is modified from the original
+        for x1, y1, x2, y2 in clipped_xyxy: # this loop is modified from the original
             
             roi = scene[y1:y2, x1:x2]
             kernel_size = max(1, math.floor(min(y2 -y1, x2 - x1) / 2))
