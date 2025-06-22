@@ -37,8 +37,7 @@ class BlurAnnotator():
         Initialize the blur annotator with customizable blur strength.
         
         Args:
-            blur_strength (int): Controls the strength of the Gaussian blur.
-                                Higher values create a stronger blur effect.
+            blur_strength (int): Not used for median_blur
         """
         self.blur_strength = blur_strength
 
@@ -76,33 +75,18 @@ class BlurAnnotator():
             xyxy=detections.xyxy, resolution_wh=(image_width, image_height)
         ).astype(int)
 
-        for x1, y1, x2, y2 in clipped_xyxy:
+for x1, y1, x2, y2 in clipped_xyxy: # this loop is modified from the original
+            
             roi = scene[y1:y2, x1:x2]
+            kernel_size = max(1, math.floor(min(y2 -y1, x2 - x1) / 2))
             
-            # Skip if ROI is empty
-            if roi.size == 0:
-                continue
-                
-            # Calculate kernel size based on region dimensions
-            # but with a more moderate scaling for stability
-            region_size = min(y2 - y1, x2 - x1)
-            
-            # Use a two-step blur for smoother results
-            # First, a small box blur to reduce noise
-            roi = cv2.boxFilter(roi, -1, (5, 5))
-            
-            # Then apply a Gaussian blur with size proportional to region
-            # but capped to avoid excessive blurring
-            blur_size = max(5, min(99, region_size // 3))
-            # Ensure blur size is odd
-            if blur_size % 2 == 0:
-                blur_size += 1
-                
-            # Apply Gaussian blur with consistent sigma value for smoother effect
-            sigma = self.blur_strength
-            roi = cv2.GaussianBlur(roi, (blur_size, blur_size), sigma)
-            
-            # Apply the blurred region back to the image
+            # Ensure the kernel size is odd and less than 16
+            if kernel_size >= 16:
+                kernel_size = 15  # Set to the maximum allowed value
+            elif kernel_size % 2 == 0:
+                kernel_size -= 1  # Make it odd if it's even
+
+            roi = cv2.medianBlur(roi, kernel_size)
             scene[y1:y2, x1:x2] = roi
 
         return scene
