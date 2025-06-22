@@ -1,5 +1,5 @@
-# Licpl-Censor
-Licpl-Censor ist ein Tool, das darauf ausgelegt ist, Gesichter und Kennzeichen in Videos zu zensieren. Es befindet sich derzeit in aktiver Entwicklung, daher sind häufige Updates und potenzielle Fehler zu erwarten.
+# Licpl-Censor-medianblur
+Licpl-Censor ist ein Tool, das darauf ausgelegt ist, Gesichter und Kennzeichen in Videos zu zensieren. Es befindet sich derzeit in aktiver Entwicklung, daher sind häufige Updates und potenzielle Fehler zu erwarten. Dieser Fork verwendet die ältere Blurring-Methode "medianblur", da ich diese über den neueren "gaussian blur" bevorzuge.
 
 ## Einschränkungen
 Das Modell ist speziell auf folgendes trainiert:
