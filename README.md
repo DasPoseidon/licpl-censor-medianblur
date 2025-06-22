@@ -1,6 +1,7 @@
-# Licpl-Censor
+# Licpl-Censor-medianblur
 ## [Deutsches Readme](README.de.md)
 Licpl-Censor is a tool designed to censor faces and license plates in videos. It's currently under active development, so expect frequent updates and potential bugs.
+This is a fork that uses the old blurring method of medianblur, instead of gaussian blur, as I prefer it.
 
 ## Limitations
 The model is specifically trained on:
