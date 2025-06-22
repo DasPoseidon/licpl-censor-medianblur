@@ -22,6 +22,7 @@ if os.path.isfile(args.input):
 elif os.path.isdir(args.input):
     for file in glob.glob(os.path.join(args.input, "**"), recursive=True):
         inputFiles.append(file)
+        inputFiles.sort(key=lambda x: os.path.dirname(x))
 else:
     print(f"input {args.input} is not a file or directory")
 
