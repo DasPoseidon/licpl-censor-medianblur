@@ -80,13 +80,21 @@ class BlurAnnotator():
             roi = scene[y1:y2, x1:x2]
             kernel_size = max(1, math.floor(min(y2 -y1, x2 - x1) / 2))
             
-            # Ensure the kernel size is odd and less than 16
-            if kernel_size >= 16:
-                kernel_size = 15  # Set to the maximum allowed value
-            elif kernel_size % 2 == 0:
-                kernel_size -= 1  # Make it odd if it's even
 
-            roi = cv2.medianBlur(roi, kernel_size)
-            scene[y1:y2, x1:x2] = roi
+            # Reduce the blur factor until it reaches 0
+            while kernel_size > 0:
+                kernel_size_n = kernel_size + 1
+                if (kernel_size_n > 15):
+                    kernel_size_n = 15
+
+                # Make odd if even
+                if kernel_size_n % 2 == 0:
+                    kernel_size_n -= 1
+
+                    
+                roi = cv2.medianBlur(roi, kernel_size_n)            
+                scene[y1:y2, x1:x2] = roi
+
+                kernel_size = max(0, kernel_size - kernel_size_n - 1)
 
         return scene
